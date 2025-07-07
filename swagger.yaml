@@ -1,0 +1,3533 @@
+openapi: 3.1.0
+info:
+  title: SendX REST API
+  description: >
+        # Introduction
+
+        The SendX API is organized around REST. Our API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+
+        The SendX Rest API doesn’t support bulk updates. You can work on only one object per request.
+        <br>
+        Our API endpoint looks like this:<br>
+
+
+
+        ```
+
+        https://api.sendx.io/api/v1/rest
+
+        ```
+
+
+
+        [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/33476323-44b198b0-5219-4619-a01f-cfc24d573885?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D33476323-44b198b0-5219-4619-a01f-cfc24d573885%26entityType%3Dcollection%26workspaceId%3D6b1e4f65-96a9-4136-9512-6266c852517e)        
+        
+        ## Authentication
+
+        The SendX API uses API key to authenticate requests.<br>
+        
+        You can checkout your API key from your settings page https://app.sendx.io/setting under the section `Team Api Key`.
+        SendX expects the API key to be included in all API requests to the server in a header that looks like the following:
+        
+        
+        
+        ```
+        X-Team-ApiKey: AHEZEP8192SEGH
+        ```
+
+
+
+        Your API keys carry many privileges, so be sure to keep them secure! Do not share your secret API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
+
+        All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
+
+        ## Errors
+
+        SendX uses conventional HTTP response codes to indicate the success or failure of an API request. In general: Codes in the 2xx range indicate success. Codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, a failed resource search, etc.). Codes in the 5xx range indicate an error with SendX’s servers (drop us a mail at support@sendx.io in case that ever happens).
+
+        Here's some error codes and what they mean:
+        <table>
+          <tr>
+            <th>Status Code</th>
+            <th>Reason</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>400</td>
+            <td>Bad Request</td>
+            <td>The request could not be understood by the server due to malformed syntax.</td>
+          </tr>
+          <tr>
+            <td>401</td>
+            <td>Unauthorized</td>
+            <td>The request requires user authentication, e.g., due to missing or invalid authentication token.</td>
+          </tr>
+          <tr>
+            <td>403</td>
+            <td>Forbidden</td>
+            <td>The request is understood, but it has been refused or access is not allowed.</td>
+          </tr>
+          <tr>
+            <td>404</td>
+            <td>Not Found</td>
+            <td>The requested resource could not be found.</td>
+          </tr>
+          <tr>
+            <td>406</td>
+            <td>Not Acceptable</td>
+            <td>The requested format is not supported by the requested method.</td>
+          </tr>
+          <tr>
+            <td>422</td>
+            <td>Unprocessable Entity</td>
+            <td>The server understood the request, but the request is semantically erroneous (e.g., a request may contain a malformed email address).</td>
+          </tr>
+          <tr>
+            <td>500</td>
+            <td>Internal Server Error</td>
+            <td>The server encountered an unexpected condition which prevented it from fulfilling the request.</td>
+          </tr>
+        </table>
+        <br>
+        
+        
+        ## API SDKs
+
+        We have native SendX SDKs in the following programming languages. You can integrate with them or create your own SDK with our API specification. In case you need any assistance with respect to API then do reachout to our team from website chat or email us at hello@sendx.io <br>
+        For checking language specific Clients:
+
+
+        -  [Golang](https://github.com/sendx/sendx-go-sdk)
+
+        -  [Python](https://github.com/sendx/sendx-python-sdk)
+
+        -  [Ruby](https://github.com/sendx/sendx-ruby-sdk)
+
+        -  [Java](https://github.com/sendx/sendx-java-sdk) 
+
+        -  [PHP](https://github.com/sendx/sendx-php-sdk)
+
+        -  [JavaScript](https://github.com/sendx/sendx-javascript-sdk)
+
+
+
+        We also have a [Javascript API](http://help.sendx.io/knowledge_base/topics/javascript-api-1) for client side integrations.
+        
+        
+        ---
+        
+        ## Schemas
+
+        The SendX API has resources related to all the major functionalities of SendX.
+
+        ### Contact
+
+        The Contact is a fundamental resource within SendX. It represents your customers, leads, or any person you wish to communicate with through your marketing campaigns. Once a contact is added to SendX, you can send personalized marketing campaigns, manage their details, and track their interaction with your marketing activities.
+
+
+        SendX provides several key attributes associated with each contact. Additionally, custom fields allow you to add any extra information that may not be covered by the default fields. You can also categorize contacts using tags, and group them into lists for easier targeting in specific campaigns.
+        Below is a detailed overview of the Contact schema.
+
+        <table>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+          <tr>
+            <td>Id</td>
+            <td>string</td>
+            <td>Identifier for the contact. This field is how you can reference the contact in your application.</td>
+            <td>ACNEFOF123R</td>
+          </tr>
+          <tr>
+            <td>FirstName</td>
+            <td>string</td>
+            <td>The first name of the contact.</td>
+            <td>Linus</td>
+          </tr>
+          <tr>
+            <td>LastName</td>
+            <td>string</td>
+            <td>The last name of the contact.</td>
+            <td>Torvalds</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>string (email)</td>
+            <td>The email address of the contact. This is a mandatory field for the contact, no SendX contact can be created without an email address.</td>
+            <td>linus@example.com</td>
+          </tr>
+          <tr>
+            <td>Company</td>
+            <td>string</td>
+            <td>The company of the contact.</td>
+            <td>Linux Foundation.</td>
+          </tr>
+          <tr>
+            <td>CustomFields</td>
+            <td>object</td>
+            <td>Custom fields and their values. This can be used to store any additional information about the contact. In SendX, this is shown as a map of custom field Id to string. Users can create their own custom fields and associate values for them with the contact.</td>
+            <td>``` { "124": "Developer/Creator", "223": "28 December 1969" }```</td>
+          </tr>
+          <tr>
+            <td>Unsubscribed</td>
+            <td>boolean</td>
+            <td>Indicates if the contact has unsubscribed from emails.</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>Bounced</td>
+            <td>boolean</td>
+            <td>Indicates if the contact's email has bounced.</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>Spam</td>
+            <td>boolean</td>
+            <td>Indicates if the contact marked the email as spam.</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>Created</td>
+            <td>string (date-time)</td>
+            <td>The date and time when the contact was created. This is sent in Unix time format.</td>
+            <td>2024-10-08T09:30:00Z</td>
+          </tr>
+          <tr>
+            <td>Updated</td>
+            <td>string (date-time)</td>
+            <td>The date and time when the contact was last updated. This is sent in Unix time format.</td>
+            <td>2024-10-08T12:45:00Z</td>
+          </tr>
+          <tr>
+            <td>Blocked</td>
+            <td>boolean</td>
+            <td>Indicates if the contact is blocked from receiving emails.</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>Dropped</td>
+            <td>boolean</td>
+            <td>Indicates if emails to this contact were dropped.</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>LTV</td>
+            <td>integer</td>
+            <td>Lifetime value (LTV) of the contact in currency units.</td>
+            <td>5000</td>
+          </tr>
+          <tr>
+            <td>ContactSource</td>
+            <td>integer</td>
+            <td>The source from which the contact was added. Possible values include: <br>
+              <ol>
+                  <li> ContactSourceUnknown</li>
+                  <li> ContactSourceFileImport</li>
+                  <li> ContactSourceJSAPI</li>
+                  <li> ContactSourceRESTAPI</li>
+                  <li> ContactSourceManualAddition</li>
+                  <li> ContactSourcePopup</li>
+                  <li> ContactSourceForm</li>
+                  <li> ContactSourceLandingPage</li>
+                  <li> ContactSourceInstaPage</li>
+                  <li> ContactSourceSamCart</li>
+                  <li> ContactSourceWooCommerce</li>
+                  <li> ContactSourceStripe</li>
+                  <li> ContactSourcePaypal</li>
+                  <li> ContactSourceIntercom</li>
+                  <li> ContactSourceShopify</li>
+                  <li> ContactSourceWebPush</li>
+                  <li> ContactSourceConvertBox</li>
+                  <li> ContactSourceClickFunnel</li>
+                  <li> ContactSourceTeachable</li>
+                  <li> ContactSourceWoorise</li>
+              </ol>
+            </td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>LastTrackedIp</td>
+            <td>string</td>
+            <td>The last known IP address tracked for the contact.</td>
+            <td>192.168.0.1</td>
+          </tr>
+          <tr>
+            <td>Lists</td>
+            <td>[string]</td>
+            <td>Array of List ids associated with the contact.</td>
+            <td>["sendxlist1","sendxlist2"]</td>
+          </tr>
+          <tr>
+            <td>Tags</td>
+            <td>[string]</td>
+            <td>Array of Tag ids associated with the contact.</td>
+            <td>["sendxtag1","sendxtag2"]</td>
+          </tr>
+        </table>
+
+
+
+        SendX REST API allows users to perform operations on any contact based on it's identifier. Identifier can be either:
+        
+        - Contact ID of the contact
+        
+        - Email of the contact
+
+        ### List
+
+        A List in SendX is a collection of contacts, similar to organizing a guest list for an event. Depending on how the list is configured, there are two types of opt-in mechanisms:
+
+          - Single Opt-in: In this type, contacts are directly added to the list once they provide their email address, just like guests who confirm their attendance without any extra steps.
+          - Double Opt-in: In this type, contacts are sent a confirmation email and must verify their subscription before being fully added to the list. This is like sending a "Save the Date" invitation, where the guest needs to RSVP before they’re officially included.
+
+          These opt-in mechanisms help ensure that your contacts are either instantly subscribed (single opt-in) or confirmed (double opt-in) based on their preference. Lists allow you to group your contacts for targeted and personalized marketing campaigns.
+
+
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Id</td>
+              <td>string</td>
+              <td>Encrypted identifier for the list.</td>
+              <td>a1b2c3d4e5</td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td>string</td>
+              <td>Name of the list.</td>
+              <td>Customer List</td>
+            </tr>
+            <tr>
+              <td>Type</td>
+              <td>integer</td>
+              <td>Type of the list, which can have two values:<br/>0: SingleOptIn <br/>1: DoubleOptIn</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>SendThankYouMail</td>
+              <td>bool</td>
+              <td>Indicates if a thank-you email should be sent after subscription.</td>
+              <td>true</td>
+            </tr>
+            <tr>
+              <td>ThankYouFromName</td>
+              <td>string</td>
+              <td>The name shown as the sender for the thank-you email.</td>
+              <td>Support Team</td>
+            </tr>
+            <tr>
+              <td>ThankYouFromEmail</td>
+              <td>string</td>
+              <td>The email address from which the thank-you email is sent.</td>
+              <td>support@sendx.com</td>
+            </tr>
+            <tr>
+              <td>ThankYouMailSubject</td>
+              <td>string</td>
+              <td>Subject line of the thank-you email.</td>
+              <td>Welcome to our newsletter</td>
+            </tr>
+            <tr>
+              <td>ThankYouMailMessage</td>
+              <td>string</td>
+              <td>Content of the thank-you email.</td>
+              <td>Thank you for subscribing!</td>
+            </tr>
+            <tr>
+              <td>ThankYouSender</td>
+              <td>string</td>
+              <td>Sender id for the thank-you email, if applicable.</td>
+              <td>sender_123</td>
+            </tr>
+            <tr>
+              <td>ConfirmFromName</td>
+              <td>string</td>
+              <td>The name shown as the sender for the confirmation email.</td>
+              <td>Support Team</td>
+            </tr>
+            <tr>
+              <td>ConfirmFromEmail</td>
+              <td>string</td>
+              <td>The email address from which the confirmation email is sent.</td>
+              <td>confirm@company.com</td>
+            </tr>
+            <tr>
+              <td>ConfirmMailSubject</td>
+              <td>string</td>
+              <td>Subject line of the confirmation email.</td>
+              <td>Please confirm your subscription</td>
+            </tr>
+            <tr>
+              <td>ConfirmMailMessage</td>
+              <td>string</td>
+              <td>Content of the confirmation email.</td>
+              <td>Click here to confirm!</td>
+            </tr>
+            <tr>
+              <td>ConfirmSuccessPage</td>
+              <td>string</td>
+              <td>URL of the success page shown after email confirmation.</td>
+              <td>https://company.com/success</td>
+            </tr>
+            <tr>
+              <td>Created</td>
+              <td>string (Date-Time)</td>
+              <td>Timestamp when the list was created.</td>
+              <td>2024-10-08T09:30:00Z</td>
+            </tr>
+            <tr>
+              <td>Updated</td>
+              <td>string (Date-Time)</td>
+              <td>Timestamp when the list was last updated.</td>
+              <td>2024-10-08T12:45:00Z</td>
+            </tr>
+            <tr>
+              <td>ConfirmSender</td>
+              <td>string</td>
+              <td>Sender id for the confirmation email, if applicable.</td>
+              <td>sender_313</td>
+            </tr>
+            <tr>
+              <td>IsQuarantined</td>
+              <td>bool</td>
+              <td>Indicates if the list is quarantined. Contact support@sendx.io if you encounter this.</td>
+              <td>false</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        
+        ### Tag
+
+        A Tag in SendX is a versatile tool that allows you to categorize and organize your contacts based on their behaviors, interests, or other attributes. By adding tags to contacts, you can create powerful filters and segments to target specific audiences in your campaigns.
+
+
+        Tags are essential for tracking and understanding your contacts’ journey through your application or business funnel. For instance, if a contact views a product, you can assign a tag like Product X Viewed. Later, you can filter all contacts with this tag to send them personalized follow-up emails or promotional offers. This ability to categorize contacts ensures that your marketing efforts are precise and relevant.
+
+
+        In the world of email marketing, tags are not just a tool—they are a key utility for creating personalized experiences, improving open rates, and driving higher engagement. By leveraging tags effectively, you can ensure that your contacts receive the right message at the right time.
+
+
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Id</td>
+              <td>string</td>
+              <td>Identifier for the tag.</td>
+              <td>a1b2c3d4e5</td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td>string</td>
+              <td>Name of the tag.</td>
+              <td>VIP Customers</td>
+            </tr>
+            <tr>
+              <td>Created</td>
+              <td>string (Date-Time)</td>
+              <td>Timestamp when the tag was created.</td>
+              <td>2024-10-08T09:30:00Z</td>
+            </tr>
+            <tr>
+              <td>Updated</td>
+              <td>string (Date-Time)</td>
+              <td>Timestamp when the tag was last updated.</td>
+              <td>2024-10-08T12:45:00Z</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        
+        ### Campaigns
+
+        Campaign is one of the key resources in SendX as an email marketing platform. A campaign allows you to send targeted email messages to specific segments of your audience, helping to engage subscribers, promote products, or share important updates.
+
+        Why is a Campaign Resource Important? Email campaigns are the cornerstone of email marketing strategies. They help you:
+
+        - **Engage Customers:** Send relevant content that resonates with the audience. 
+        
+        
+        - **Automate Communication:** Schedule and automate emails to reach the right people at the right time.
+        
+        
+        - **Track Performance:** Measure engagement, opens, clicks, and conversions to optimize future campaigns.
+
+
+        <br>
+        For example you might create a campaign called "Holiday Discounts" where you target customers who have shown interest in your products over the last three months. The campaign could send personalized emails with special discounts for the holiday season, encouraging recipients to take action.
+
+
+        The Campaign resource in SendX provides you with a powerful toolset to not only communicate with your audience but also to enhance their experience through targeted, automated, and personalized email strategies.
+
+
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Id</td>
+              <td>string</td>
+              <td> ID of the campaign</td>
+              <td>campaign123xyz</td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>string</td>
+              <td>Name of the campaign</td>
+              <td>New Year Promotion</td>
+            </tr>
+            <tr>
+              <td>trackReply</td>
+              <td>boolean</td>
+              <td>Indicates if replies to the campaign should be tracked</td>
+              <td>false</td>
+            </tr>
+            <tr>
+              <td>status</td>
+              <td>integer</td>
+              <td>Current status of the campaign which can have these possible values: <br>0: Draft <br>1: Scheduled <br>2: Sending <br>3: Sent <br>4: Quarantined</td>
+              <td>Scheduled</td>
+            </tr>
+            <tr>
+              <td>scheduleType</td>
+              <td>integer</td>
+              <td>Type of schedule for the campaign <br>0: Schedule later <br>1: Send Now <br>2. Trigger via automation <br>3. Recurring </td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>scheduleCondition</td>
+              <td>string</td>
+              <td>Condition for scheduling the campaign, in case of Send Now this field remains empty.In case of Schedule later, this field denotes the date at which the campaign will be sent in YYYY-MM-DD format</td>
+              <td>2024-12-30</td>
+            </tr>
+            <tr>
+              <td>timeCondition</td>
+              <td>string</td>
+              <td>Condition for scheduling the campaign, in case of Send Now this field remains empty.In case of Schedule later, this field denotes the time at which the campaign will be sent in HH:MM AM/PM format</td>
+              <td>9:00 AM</td>
+            </tr>
+            <tr>
+              <td>timezone</td>
+              <td>string</td>
+              <td>Timezone for the scheduled send. See `allowed timezones` for the list of allowed timezones</td>
+              <td>America/New_York</td>
+            </tr>
+            <tr>
+              <td>preferredTimeCondition</td>
+              <td>string</td>
+              <td>Preferred time condition for the campaign</td>
+              <td>Send during work hours</td>
+            </tr>
+            <tr>
+              <td>preferredTimezone</td>
+              <td>string</td>
+              <td>Preferred timezone for sending the campaign</td>
+              <td>America/Los_Angeles</td>
+            </tr>
+            <tr>
+              <td>strategy</td>
+              <td>string</td>
+              <td>Strategy for the campaign</td>
+              <td>Batch sending</td>
+            </tr>
+            <tr>
+              <td>sendInContactsTimezone</td>
+              <td>boolean</td>
+              <td>Indicates if the campaign should be sent in the recipient's timezone</td>
+              <td>true</td>
+            </tr>
+            <tr>
+              <td>smartSend</td>
+              <td>boolean</td>
+              <td>Indicates if smart sending should be used</td>
+              <td>false</td>
+            </tr>
+            <tr>
+              <td>isArchived</td>
+              <td>boolean</td>
+              <td>Indicates if the campaign is archived</td>
+              <td>false</td>
+            </tr>
+            <tr>
+              <td>sender</td>
+              <td>string</td>
+              <td>Unique identifier of the sender of the campaign</td>
+              <td>sender_123</td>
+            </tr>
+            <tr>
+              <td>campaignScreenshotUrl</td>
+              <td>string</td>
+              <td>URL of the campaign's screenshot</td>
+              <td>https://example.com/screenshot.png</td>
+            </tr>
+            <tr>
+                <td>includedSegments </td>
+                <td>array</td>
+                <td>List of segment IDs that are included in the campaign as receivers</td>
+                <td>["segment_123", "segment_456"]</td>
+            </tr>
+            <tr>
+                <td>includedTags </td>
+                <td>array</td>
+                <td>List of tag IDs that are included in the campaign as receivers</td>
+                <td>["tag_123", "tag_456"]</td>
+            </tr>
+            <tr>
+                <td>includedLists </td>
+                <td>array</td>
+                <td>List of list IDs that are included in the campaign as receivers</td>
+                <td>["list_123", "list_456"]</td>
+            </tr>
+            <tr>
+                <td>excludedSegments </td>
+                <td>array</td>
+                <td>List of segment IDs that are excluded from the campaign as receivers</td>
+                <td>["segment_123", "segment_456"]</td>
+            </tr>
+            <tr>
+                <td>excludedTags </td>
+                <td>array</td>
+                <td>List of tag IDs that are excluded from the campaign as receivers</td>
+                <td>["tag_123", "tag_456"]</td>
+            </tr>
+            <tr>
+                <td>excludedLists </td>
+                <td>array</td>
+                <td>List of list IDs that are excluded from the campaign as receivers</td>
+                <td>["list_123", "list_456"]</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        Note: Here's a list of all the allowed timezones for the `timezone` field:
+
+        # JavaScript API
+
+        SendX Javascript API enables you to add contacts, associate tags with them and update custom fields. This guide details various functions associated with our Javascript API.
+        
+        - Installing Javascript Snippet
+        
+        - Sending API Requests
+        
+        - API Methods
+
+        ## Installing Javascript Snippet
+
+        To use SendX Javascript API you need to have SendX snippet installed on your website. Each SendX team account has a unique snippet that can be found under [Settings > Site Code](https://app.sendx.io/setting) Snippet
+
+
+        SendX Javascript snippet gets loaded asynchronously and hence it won't affect page load time of your website.
+
+
+
+        ## Sending API Requests
+
+        All requests follow the same pattern. <br>
+
+
+
+        ```javascript
+          _scq.push(["methodName", { key: "value", ... }]);
+        ```
+
+
+        API requests are executed asynchronously so you can safely place them anywhere on the page. The conventions are similar to what **google analytics** API follows.
+
+        ## API Methods
+
+        SendX Javascript API has two methods:
+        
+        - Identify
+
+        - Track
+
+        ## Identify API Method
+
+        Identify API Method is used to attach data to a visitor. If a contact is not yet created then we will create the contact. In case contact already exists then we update it.
+
+        ### Example Request:
+        
+        ```javascript
+          _scq.push(["identify", { email: "john.doe@gmail.com",
+          firstName: "John", lastName: "Doe", birthday: "1989-03-03", customFields: { "Designation": "Software Engineer", "Age": "27", "Experience": "5"},
+          tags: ["Developer", "API Team"],
+          }]);
+        ```
+
+        Note that tags are an array of strings. In case they don't exist previously then API will create them and associate them with the contact.
+
+
+        Similarly if a custom field doesn't exist then it is first created and then associated with the contact along-with the corresponding value. In case custom field exists already then we simply update the value of it for the aforementioned contact.
+
+
+        Custom Fields are associated with data types and which be created and edited inside the app. If a custom field is not present inside the app and an API call is made containing it, a custom field with type 'string' is created and the value set. For custom fields with data type 'number', values can be added to or subtracted from existing values. This can be done by using "++" or "--" operator before the number(e.g. "customField_name": "++34" would increase the value of existing "customField_name" in SendX for the contact. If it doesn't already exist, the value '- 34' would be inserted for it).
+
+
+        We don't delete any of the properties based on identify call. What this means is that if for the same contact you did two API calls like:
+        
+        ### API Call A
+
+        ```javascript
+          _scq.push(["identify", { email: "john.doe@gmail.com", firstName: "John", birthday: "1989-03-03", customFields: { "Designation": "Software Engineer"},
+          tags: ["Developer"],
+          success: function(){console.log("identify call successful");},
+          failure: function(){console.log("identify failed");},
+          }]);
+        ```
+
+        ### API Call B
+
+        ```javascript
+          _scq.push(["identify", {
+          email: "john.doe@gmail.com",
+          customFields: { "Age": "29"},
+          tags: ["API Team"],
+          success: function(){console.log("identify call successful");},
+          failure: function(){console.log("identify failed");},
+          }]);
+        ```
+
+        The the final contact will have firstName as John, birthday as 1989-03-03 present. Also both tags Developer and API Team shall be present along with custom fields Designation and Age.
+
+
+        Properties:
+
+
+        - firstName: type string
+
+        - lastName: type string
+
+        - email: type string
+
+        - newEmail: type string
+
+        - company: type string
+
+        - birthday: type string with format YYYY-MM-DD eg: 2016-11-21
+
+        - customFields: type map[string]string
+
+        - tags: type array of string
+
+        - success: Optional. Callback function which is executed on successful completion of request.
+
+        - failure: Optional. Callback function which is executed when request fails or timeouts.
+
+
+        In case email of an already existing contact needs to be updated then specify current email under email property and updated email under newEmail property.
+
+        ### Response
+
+        ```json
+          { "status": "200", "message": "OK", "data": 
+            { "encryptedTeamId": "CLdh9Ig5GLIN1u8gTRvoja", "encryptedId": "c9QF63nrBenCaAXe660byz", 
+           "tags": [ "API Team", "Tech" ], "firstName": "John", "lastName": "Doe", "email": "john.doe@gmail.com", 
+           "company": "", "birthday": "1989-03-03", 
+           "customFields": { "Age": "29", "Designation": "Software Engineer" } } }
+        ```
+
+        ## Track API Method
+
+        Track API Method is used to track a contact. You can add or remove tags from a contact using this API.
+
+
+        Properties:
+
+
+        - addTags: Array of tags to be added to a contacts
+
+        - removeTags: Array of tags to be removed from a contact
+
+        - success: Optional. Callback function which is executed on successful completion of request.
+
+        - failure: Optional. Callback function which is executed when request fails or timeouts.
+
+        You can have automation rules based on tag addition as well as tag removal and they will get executed. For eg:
+
+        - On user registration tag start on-boarding drip for him / her.
+
+        - Account Upgrade tag start add user to paid user list and start account expansion drip.
+
+        - On removal of trial user tag start up-sell trial completed users drip.
+
+
+        ### Example Request:
+
+        ```javascript
+          _scq.push(["track", {
+          "addTags": ["blogger", "female"],
+          success: function(){console.log("track call successful");},
+          failure: function(){console.log("track call failed");},
+          }]);
+
+          _scq.push(["track", {
+          "addTags": ["paid user"], "removeTags": ["trial user"],
+          success: function(){console.log("track call successful");},
+          failure: function(){console.log("track call failed");},
+          }]);
+        ```
+
+        ### Response
+
+        ```json
+          { "status": "200", "message": "OK", "data": "success" }
+        ```
+
+
+
+  version: 1.0.0
+  contact:
+    name: SendX Dev Team
+    email: support@sendx.io
+servers:
+  - url: https://api.sendx.io/api/v1/rest
+    description: Production server
+  - url: https://stag.sendx.io/api/v1/rest
+    description: Staging server
+  - url: http://localhost:8080/api/v1/rest
+    description: Local server
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Getting Started
+    description: |
+        The **Identify API Method** and **Track API Method** are foundational APIs for managing contacts and tracking events within the system. These APIs enable seamless integration with your application, allowing you to attach data to visitors, update contact information, and track user behavior using tags.
+
+        ## Identify API Method
+        The Identify API Method is used to attach data to a visitor and manage contact creation or updates.
+
+        ### Example Request:
+        ```json
+        {
+          "email": "john.doe@gmail.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "birthday": "1989-03-03",
+          "customFields": {
+            "Designation": "Software Engineer",
+            "Age": "27",
+            "Experience": "5"
+          },
+          "tags": ["Developer", "API Team"]
+        }
+        ```
+
+        - Tags and custom fields that do not exist are created automatically.
+        - Existing tags and custom fields are updated with the new data.
+        - Properties are additive: no data is removed based on subsequent Identify calls.
+
+        ### Properties:
+        - **firstName**: `string`
+        - **lastName**: `string`
+        - **email**: `string`
+        - **newEmail**: `string` (use this to update a contact's email)
+        - **company**: `string`
+        - **birthday**: `string` (format: YYYY-MM-DD, e.g., 2016-11-21)
+        - **customFields**: `map[string]string`
+        - **tags**: `array of strings`
+
+        ## Track API Method
+        The Track API Method is used to track a contact's actions by managing tags.
+
+        ### Example Requests:
+        Add tags:
+        ```json
+        {
+          "addTags": ["blogger", "female"]
+        }
+        ```
+
+        Add and remove tags:
+        ```json
+        {
+          "addTags": ["paid user"],
+          "removeTags": ["trial user"]
+        }
+        ```
+
+        Automation rules can be triggered based on tag additions or removals, e.g.:
+        - On **user registration** tag, start onboarding drip campaigns.
+        - On **account upgrade**, start account expansion drip campaigns.
+        - On removal of the **trial user** tag, initiate upsell campaigns.
+
+        ### Response:
+        ```json
+        {
+          "status": "200",
+          "message": "OK",
+          "data": "success"
+        }
+        ```
+  - name: Contact
+  - name: Campaign
+    description: Operations for managing campaigns in the system.s
+  - name: Tags
+    description: Operations related to managing tags such as create, update, delete, and retrieve tags.
+  - name: Event
+
+paths:
+  /contact:
+    post:
+      summary: "Create a contact"
+      description: "Create Contact with given data"
+      tags:
+        - Contact
+      operationId: createContact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+      responses:
+        200:
+          description: "Contact Created Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        401:
+          description: "Not Authorized"
+        406:
+          description: "Not Acceptable"
+        422:
+          description: "Request body is not in proper format"
+        500:
+          description: "Internal Server Error"
+    get:
+      summary: "Get All Contacts"
+      description: "Find all contacts with optional filters"
+      tags:
+        - Contact
+      operationId: getAllContacts
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: "Offset for pagination"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: "Limit for pagination"
+        - name: contactType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - all
+              - unsubscribed
+              - bounced
+              - markedspam
+          description: "Filter contacts by type"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Search term to filter contacts"
+      responses:
+        200:
+          description: "List of Contacts"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+        401:
+          description: "Not Authorized"
+        422:
+          description: "Request body is not in proper format"
+        500:
+          description: "Internal Server Error"
+  /contact/{identifier}:
+    get:
+      summary: Get Contact by Identifier
+      operationId: getContactById
+      tags:
+        - Contact
+      description: Retrieve a specific contact by its identifier.
+      parameters:
+        - name: identifier
+          in: path
+          description: The ID or Email of the contact to retrieve.
+          required: true
+          schema:
+            type: string
+            example: "john@doe.com"
+      responses:
+        200:
+          description: Retrieved contact successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        401:
+          description: Not Authorized - Invalid or missing API key.
+        406:
+          description: Contact ID is empty or invalid.
+        422:
+          description: Request body is not in proper format.
+        500:
+          description: Internal Server Error - Something went wrong on the server.
+
+    put:
+      summary: "Update Contact"
+      description: "Update Contact with given data"
+      tags:
+        - Contact
+      operationId: updateContact
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "sendxid123"
+          description: "The ID or email of the Contact to update"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+      responses:
+        200:
+          description: "Contact Updated Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        401:
+          description: "Not Authorized"
+        406:
+          description: "Not Acceptable"
+        422:
+          description: "Request body is not in proper format"
+        500:
+          description: "Internal Server Error"
+    delete:
+      summary: "Delete Contact"
+      description: "Deletes Contact"
+      tags:
+        - Contact
+      operationId: deleteContact
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "The Contact ID/ Email to delete"
+      responses:
+        200:
+          description: "Contact deleted successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        401:
+          description: "Not Authorized"
+        406:
+          description: "Contact ID is empty"
+        422:
+          description: "Request body is not in proper format"
+        500:
+          description: "Internal Server Error"
+
+  /contact/unsubscribe/{identifier}:
+    post:
+      summary: "Unsubscribe Contact"
+      description: "Unsubscribe a globally existing contact"
+      tags:
+        - Contact
+      operationId: unsubscribeContact
+      parameters:
+        - name: identifier
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "sendx123"
+          description: "The Contact ID or email to unsubscribe"
+      responses:
+        200:
+          description: "Contact successfully unsubscribed"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        401:
+          description: "Not Authorized"
+        406:
+          description: "Contact ID is empty or invalid"
+        422:
+          description: "Request body is not in proper format"
+        500:
+          description: "Internal Server Error"
+  /campaign:
+    post:
+      summary: "Create Campaign"
+      description: "Create a new email campaign"
+      tags:
+        - Campaign
+      operationId: createCampaign
+      requestBody:
+        description: "The campaign content"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignRequest'
+      responses:
+        200:
+          description: "Campaign Created Successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        401:
+          description: "Not Authorized"
+        403:
+          description: "Forbidden - Tag with name already exists"
+        406:
+          description: "Not Acceptable"
+        422:
+          description: "Request body is not in proper format"
+        500:
+          description: "Internal Server Error"
+    get:
+      summary: Get All Campaigns
+      description: Retrieve a list of all campaigns.
+      operationId: getAllCampaigns
+      tags:
+        - Campaign
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+          description: "Offset for pagination"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+          description: "Limit for pagination"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Search term to filter campaigns"
+
+      responses:
+        200:
+          description: Retrieved campaigns successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Campaign'
+        401:
+          description: Not Authorized - Invalid or missing API key.
+        500:
+          description: Internal Server Error - Something went wrong on the server.
+  /campaign/{campaignId}:
+    get:
+      summary: Get Campaign By Id
+      description: Retrieve a specific campaign using its ID.
+      operationId: getCampaignById
+      tags:
+        - Campaign
+      parameters:
+        - name: campaignId
+          in: path
+          description: The ID of the campaign to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Retrieved campaign successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        401:
+          description: Not Authorized - Invalid or missing API key.
+        406:
+          description: Not Acceptable - Request not acceptable.
+        403:
+          description: Forbidden - Tag with name already exists.
+        422:
+          description: Request body is not in proper format.
+        500:
+          description: Internal Server Error - Something went wrong on the server.
+
+    delete:
+      tags:
+        - Campaign
+      summary: Delete Campaign
+      description: Deletes a specific campaign by its campaignId.
+      operationId: deleteCampaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the campaign to delete
+      responses:
+        '200':
+          description: Campaign deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID of the deleted campaign
+                  message:
+                    type: string
+                    description: Success message
+              example:
+                id: 123
+                message: Campaign (Test Campaign) has been deleted successfully
+        '401':
+          description: Not Authorized
+        '406':
+          description: Campaign ID is empty
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Err
+    put:
+      tags:
+        - Campaign
+      summary: Edit Campaign
+      description: Submit edited content for a specific campaign.
+      operationId: editCampaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the campaign to edit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignRequest'
+      responses:
+        '200':
+          description: Campaign edited successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '401':
+          description: Not Authorized
+        '406':
+          description: Not Acceptable
+        '403':
+          description: Forbidden - Tag with name already exists
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+  /list:
+    post:
+      summary: Create List
+      description: Create a new list.
+      operationId: createList
+      tags:
+        - List
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListRequest'
+      responses:
+        '200':
+          description: List Created Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        '401':
+          description: Not Authorized
+        '403':
+          description: Forbidden - Tag with name already exists
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Get All Lists
+      description: Retrieve all lists for the account.
+      operationId: getAllLists
+      tags:
+        - List
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          description: Offset for pagination.
+          schema:
+            type: integer
+            example: 0
+        - name: limit
+          in: query
+          required: false
+          description: Limit the number of results returned.
+          schema:
+            type: integer
+            example: 10
+        - name: search
+          in: query
+          required: false
+          description: Search term to filter lists.
+          schema:
+            type: string
+            example: "Marketing"
+
+      responses:
+        '200':
+          description: Retrieved all Lists for account successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListModel'
+        '401':
+          description: Not Authorized
+        '500':
+          description: Internal Server Error
+  /list/{listId}:
+    put:
+      summary: Update List
+      description: Update an existing list by its ID.
+      operationId: updateList
+      tags:
+        - List
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          description: The ID of the list to be updated.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListRequest'
+      responses:
+        '200':
+          description: List Updated Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Not Authorized
+        '403':
+          description: Forbidden - Tag with name already exists
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Get List
+      description: Retrieve a specific list by its ID.
+      operationId: getListById
+      tags:
+        - List
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          description: The ID of the list you want to retrieve
+          schema:
+            type: string
+            example: "sendx123"
+      responses:
+        '200':
+          description: Successfully retrieved the list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListModel'
+        '401':
+          description: Not Authorized
+        '406':
+          description: Not Acceptable
+        '403':
+          description: Forbidden Tag with name already exists
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete List
+      description: Deletes a specific list by its ID.
+      operationId: deleteList
+      tags:
+        - List
+      parameters:
+        - name: listId
+          in: path
+          required: true
+          description: The ID of the list you want to delete
+          schema:
+            type: string
+            example: "sendx123"
+      responses:
+        '200':
+          description: List deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          description: Not Authorized
+        '406':
+          description: listId is empty
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+  /tag:
+    post:
+      tags:
+        - Tags
+      summary: Create a Tag
+      description: Create a new tag for the account
+      operationId: createTag
+      requestBody:
+        description: The tag content
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagRequest'
+      responses:
+        "200":
+          description: Tag created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        "401":
+          description: Not Authorized
+        "403":
+          description: Forbidden - Tag with this name already exists
+        "406":
+          description: Not Acceptable
+        "422":
+          description: Request body is not in proper format
+        "500":
+          description: Internal Server Error
+    get:
+      tags:
+        - Tags
+      summary: Get All Tags
+      operationId: getAllTags
+      description: Retrieve all tags for the account with optional pagination and search filters
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          required: false
+          description: Offset for pagination
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          required: false
+          description: Limit the number of results
+        - in: query
+          name: search
+          schema:
+            type: string
+          required: false
+          description: Search term to filter tags
+      responses:
+        "200":
+          description: Retrieved all tags successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+        "401":
+          description: Not Authorized
+        "500":
+          description: Internal Server Error
+
+  /tag/{tagId}:
+    get:
+      tags:
+        - Tags
+      summary: Get a Tag by ID
+      operationId: getTagById
+      description: Retrieve a tag based on the provided tag ID
+      parameters:
+        - in: path
+          name: tagId
+          schema:
+            type: string
+          required: true
+          description: ID of the tag you want to fetch
+      responses:
+        "200":
+          description: Successful response with the tag details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+        "401":
+          description: Not Authorized
+          content:
+            text/plain:
+              schema:
+                type: string
+        "403":
+          description: Forbidden - Tag with the same name already exists
+          content:
+            text/plain:
+              schema:
+                type: string
+        "406":
+          description: Not Acceptable
+          content:
+            text/plain:
+              schema:
+                type: string
+        "422":
+          description: Request body is not in proper format
+          content:
+            text/plain:
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+    put:
+      tags:
+        - Tags
+      summary: Update a Tag
+      operationId: updateTag
+      description: Update an existing tag
+      parameters:
+        - in: path
+          name: tagId
+          schema:
+            type: string
+          required: true
+          description: ID of the tag to update
+      requestBody:
+        description: The tag content
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagRequest'
+      responses:
+        "200":
+          description: Tag updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "401":
+          description: Not Authorized
+        "403":
+          description: Forbidden - Tag with this name already exists
+        "406":
+          description: Not Acceptable
+        "422":
+          description: Request body is not in proper format
+        "500":
+          description: Internal Server Error
+    delete:
+      tags:
+        - Tags
+      summary: Delete a Tag
+      operationId: deleteTag
+      description: Delete an existing tag by ID
+      parameters:
+        - in: path
+          name: tagId
+          schema:
+            type: string
+          required: true
+          description: ID of the tag to delete
+      responses:
+        "200":
+          description: Tag deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        "401":
+          description: Not Authorized
+        "406":
+          description: Tag ID is empty
+        "422":
+          description: Request body is not in proper format
+        "500":
+          description: Internal Server Error
+  /report/campaign/{campaignId}:
+    get:
+      tags:
+        - Reports
+      summary: Get CampaignReport Data
+      operationId: getCampaignReport
+      description: Retrieve the campaign report data based on the provided campaign id.
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          description: "The ID of the campaign to retrieve the report data for"
+          schema:
+            type: string
+        - name: integrationType
+          in: query
+          required: false
+          description: "Type of integration for the report data (optional)"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get Report Data Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportData'
+        "401":
+          description: Not Authorized
+        "403":
+          description: Forbidden Tag with name already exists
+        "406":
+          description: Not Acceptable
+        "422":
+          description: Request body is not in proper format
+        "500":
+          description: Internal Server Error
+  /sender:
+    post:
+      summary: Create Sender
+      description: Creates a new sender in the system.
+      tags:
+        - Sender
+      operationId: createSender
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SenderRequest'
+      responses:
+        '200':
+          description: Sender Created Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sender'
+        '401':
+          description: Not Authorized
+        '403':
+          description: Forbidden - Tag with name already exists
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Unprocessable Entity - Request body is not in the proper format
+        '500':
+          description: Internal Server Error
+    get:
+      summary: Get All Senders
+      description: Retrieve all senders for the team, with optional filters like offset, limit, and search.
+      tags:
+        - Sender
+      operationId: getAllSenders
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          required: false
+          description: Number of records to skip
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          required: false
+          description: Maximum number of records to return
+        - in: query
+          name: search
+          schema:
+            type: string
+          required: false
+          description: Search keyword to filter senders by name or email
+      responses:
+        '200':
+          description: Retrieved all senders for team successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SenderResponse'
+        '401':
+          description: Not Authorized
+        '500':
+          description: Internal Server Error
+  /events/custom:
+    post:
+      summary: Push a custom event associated with a contact
+      description: |
+
+       This API allows you to push a custom event for a specified contact, including any additional properties you wish to associate with the event.
+       
+
+       ## Request Properties
+       
+
+
+
+
+        Property   | Type                | Description                                                                                                                                          
+       ------------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------
+        name       | `string`            | The name of the custom event.                                                                                                                        
+        identifier | `string`            | A unique identifier for the contact (e.g., an email address).                                                                                        
+        data       | `map[string]string` | A set of key-value pairs containing additional event properties.                                                                                     
+        time       | `int64` (optional)  | Unix timestamp (in seconds since January 1, 1970) representing when the event occurred. If omitted, the current request time will be used.          
+       
+
+       ### Example Request:
+       ```json
+       {
+         "name": "abandoned_cart",
+         "identifier": "john.doe@example.com",
+         "data": {
+           "price": "29.99",
+           "currency": "USD",
+           "item_count": "3"
+         },
+         "time": 1669990400
+       }
+       ``` 
+       
+      operationId: pushCustomEvent
+      tags:
+        - Event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomEventRequest'
+      responses:
+        '201':
+          description: Custom event created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+        '400':
+          description: Invalid request parameters.
+        '500':
+          description: Internal server error.
+  /events/revenue:
+    post:
+      summary: Record a revenue event for a specific contact
+      description: Records a revenue event, which can be attributed to campaigns, drips, workflows, or other sources of user interaction.
+      operationId: createRevenueEvent
+      tags:
+        - Event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevenueEventRequest'
+      responses:
+        '201':
+          description: Revenue event recorded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponse'
+        '400':
+          description: Invalid request parameters.
+        '500':
+          description: Internal server error.
+  /events/revenue/postback:
+    get:
+      summary: Revenue event postback url
+      description: Trigger a revenue postback for a specific team and event.
+      tags:
+        - Event
+      security:
+      parameters:
+        - name: team_id
+          in: query
+          description: The unique identifier for the team.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: The unique sendx identifier for the contact/customer.
+          required: true
+          schema:
+            type: string
+        - name: amount
+          in: query
+          description: The revenue amount to be posted back.
+          required: true
+          schema:
+            type: number
+            format: float
+        - name: campaign_id
+          in: query
+          description: The unique identifier for the campaign.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Revenue postback processed successfully.
+                  status:
+                    type: string
+                    example: success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid parameters provided.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An unexpected error occurred.
+  /events/custom/postback:
+    get:
+      summary: Custom event postback url
+      description: Register a custom event for a specific team and event.
+      tags:
+        - Event
+      security:
+      parameters:
+        - name: team_id
+          in: query
+          description: The unique identifier for the team.
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: The unique sendx identifier for the contact/customer.
+          required: true
+          schema:
+            type: string
+        - name: event
+          in: query
+          description: The custom event name.
+          required: true
+          schema:
+            type: string
+        - name: any-key
+          in: query
+          description: |
+            Arbitrary custom data as key-value pairs. Add custom parameters directly to the query string. 
+            For example, `amount=24.43` or `currency=USD`.
+          required: true
+          schema:
+            type: string
+            example: "24.43"
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Revenue postback processed successfully.
+                  status:
+                    type: string
+                    example: success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid parameters provided.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: An unexpected error occurred.
+  /contact/identify:
+    post:
+      tags:
+        - Getting Started
+      summary: Identify contact
+      operationId: identifyContact
+      description: 'Identify a contact by email address. If the contact already exists, it will be updated.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentifyRequest'
+      responses:
+        '201':
+          description: The created Contact object
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/IdentifyResponse'
+        '400':
+          description: Invalid request parameters.
+        '500':
+          description: Internal server error.
+
+  /contact/track:
+    post:
+      tags:
+        - Getting Started
+      summary: Add Tracking info
+      operationId: trackingContact
+      description: 'Track a contact'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackRequest'
+      responses:
+        '201':
+          description: The created Contact object
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/TrackResponse'
+        '400':
+          description: Invalid request parameters.
+        '500':
+          description: Internal server error.
+  /webhook:
+    get:
+      summary: Get All team Webhook
+      description: Retrieve all team webhooks for the requesting team.
+      operationId: getAllTeamWebhook
+      tags:
+        - webhook
+      responses:
+        '200':
+          description: A list of team webhooks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Not Authorized
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create TeamWebhook
+      description: Create a new team webhook.
+      operationId: createTeamWebhook
+      tags:
+        - webhook
+      requestBody:
+        description: The webhook details to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+      responses:
+        '200':
+          description: The newly created team webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Not Authorized
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+  /webhook/{webhookId}:
+    get:
+      summary: Get TeamWebhook
+      description: Retrieve a specific team webhook by its ID.
+      operationId: getTeamWebhook
+      tags:
+        - webhook
+      parameters:
+        - name: webhookId
+          in: path
+          description: The ID of the team webhook.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The requested team webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Not Authorized
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Update Team Webhook
+      description: Update an existing team webhook with new content.
+      operationId: updateTeamWebhook
+      tags:
+        - webhook
+      parameters:
+        - name: webhookId
+          in: path
+          description: The ID of the team webhook.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The updated webhook details.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequest'
+      responses:
+        '200':
+          description: The updated team webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          description: Not Authorized
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete Team Webhook
+      description: Delete a specific team webhook by its ID.
+      operationId: deleteTeamWebhook
+      tags:
+        - webhook
+      parameters:
+        - name: webhookId
+          in: path
+          description: The ID of the team webhook.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Confirmation of the deletion.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '401':
+          description: Not Authorized
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+  /customfield:
+    post:
+      summary: Create Custom Field
+      description: Create a custom field with the given data.
+      tags:
+        - Custom Field
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ECustomField'
+            example:
+              name: "Custom Field Example"
+              type: 0
+              shown: true
+              isShareable: false
+              description: "An example custom field"
+      responses:
+        '200':
+          description: Custom Field created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+              example:
+                id: "encrypted-id-123"
+                name: "Custom Field Example"
+                type: 0
+                description: "An example custom field"
+        '401':
+          description: Not Authorized
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+    get:
+        summary: Get All Custom Fields
+        description: Retrieve all custom fields.
+        tags:
+          - Custom Field
+        parameters:
+          - name: offset
+            in: query
+            required: true
+            description: Offset for pagination.
+            schema:
+              type: integer
+              example: 0
+          - name: limit
+            in: query
+            required: true
+            description: Limit for pagination.
+            schema:
+              type: integer
+              example: 10
+          - name: search
+            in: query
+            required: false
+            description: Search term for filtering results.
+            schema:
+              type: string
+              example: "example search"
+        responses:
+          '200':
+            description: List of custom fields retrieved successfully.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CustomField'
+                example:
+                  - id: "encrypted-id-123"
+                    name: "Custom Field Example"
+                    type: 0
+                    description: "An example custom field"
+                  - id: "encrypted-id-456"
+                    name: "Another Custom Field"
+                    type: 1
+                    description: "Another example custom field"
+          '401':
+            description: Not Authorized
+          '422':
+            description: Request body is not in proper format
+          '500':
+            description: Internal Server Error
+
+  /customfield/{customfieldId}:
+    get:
+      summary: Get Custom Field
+      description: Find Custom Field by customfieldId.
+      tags:
+        - Custom Field
+      parameters:
+        - name: customfieldId
+          in: path
+          required: true
+          description: The CustomFieldId you want to get.
+          schema:
+            type: string
+            example: "encrypted_id_123"
+      responses:
+        '200':
+          description: Custom Field retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+              example:
+                id: "encrypted_id_123"
+                name: "Custom Field Example"
+                type: 0
+                description: "An example custom field"
+        '401':
+          description: Not Authorized
+        '406':
+          description: customfieldId is empty
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+
+    delete:
+      summary: Delete Custom Field
+      description: Deletes a custom field.
+      tags:
+        - Custom Field
+      parameters:
+        - name: customfieldId
+          in: path
+          required: true
+          description: The CustomFieldId you want to delete.
+          schema:
+            type: string
+            example: "encrypted_id_124"
+      responses:
+        '200':
+          description: Custom Field deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Custom Field deleted successfully."
+        '401':
+          description: Not Authorized
+        '406':
+          description: customfieldId is empty
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+
+    put:
+      summary: Update Custom Field
+      description: Update Custom Field with the given data.
+      tags:
+        - Custom Field
+      parameters:
+        - name: customfieldId
+          in: path
+          required: true
+          description: The CustomFieldId you want to update.
+          schema:
+            type: string
+            example: "encrypted_id_123"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ECustomField'
+            example:
+              name: "Updated Field"
+              type: "number"
+              shown: false
+              isShareable: true
+              description: "An updated custom field description"
+      responses:
+        '200':
+          description: Custom Field updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomField'
+              example:
+                id: "encrypted-id-123"
+                name: "Updated Field"
+                type: "number"
+                description: "An updated custom field description"
+        '401':
+          description: Not Authorized
+        '406':
+          description: Not Acceptable
+        '422':
+          description: Request body is not in proper format
+        '500':
+          description: Internal Server Error
+webhooks:
+      SendX Webhooks:
+            post:
+                  tags:
+                        - webhook
+                  summary: SendX Webhook Object
+                  description: |                        
+                        Every event generated as SendX webhook will have <code>type</code> field in event object:
+                        
+                        Webhook Event | Type Field Value 
+                        -----------|------------------
+                        Unsubscribed | 73
+                        Marked Spam | 6
+                        Mail Opened  | 7
+                        Link Clicked | 8
+                        Mail Bounced | 58
+                        Mail Dropped | 60
+                        
+                        
+
+                  requestBody:
+                        content:
+                              application/json:
+                                    schema:
+                                          $ref: "#/components/schemas/WebhookObject"
+                  responses:
+                        "200":
+                              description: Return a 200 status to indicate that the data was received successfully
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Team-ApiKey
+  schemas:
+    ContactRequest:
+      type: object
+      description: "Schema for the contact request payload. Used for creating or updating a contact."
+      properties:
+        email:
+          type: string
+          format: email
+          description: "The email address of the contact. Must be a valid email."
+          example: "jane.doe@example.com"
+        firstName:
+          type: string
+          description: "The first name of the contact."
+          example: "Jane"
+        lastName:
+          type: string
+          description: "The last name of the contact."
+          example: "Doe"
+        company:
+          type: string
+          description: "The company where the contact works."
+          example: "Tech Solutions Inc."
+        lastTrackedIp:
+          type: string
+          description: "The last known IP address of the contact."
+          example: "34.94.159.140"
+        customFields:
+          type: object
+          additionalProperties:
+            type: string
+          description: "Custom fields specific to the contact, which may vary by account."
+          example: { "Position": "VIP", "Status": "Special Offer Subscriber" }
+        lists:
+          type: array
+          description: "A list of `lists` ids the contact is subscribed to."
+          items:
+            type: string
+          example: ["sendx123", "sendx233"]
+        tags:
+          type: array
+          description: "Tag ids associated with the contact for segmentation or categorization."
+          items:
+            type: string
+          example: ["223", "3232"]
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "a1b2c3d4e5"
+          description: "Identifier for the contact."
+        firstName:
+          type: string
+          example: "Jane"
+          description: "The first name of the contact."
+        lastName:
+          type: string
+          example: "Doe"
+          description: "The last name of the contact."
+        email:
+          type: string
+          format: email
+          example: "jane.doe@example.com"
+          description: "The email address of the contact."
+        company:
+          type: string
+          example: "Tech Solutions Inc."
+          description: "The company of the contact."
+        customFields:
+          type: object
+          additionalProperties:
+            type: string
+          description: "Custom fields and their values"
+          example: { "Position": "VIP", "Status": "Special Offer Subscriber" }
+        unsubscribed:
+          type: boolean
+          example: false
+          description: "Indicates if the contact has unsubscribed from emails."
+        bounced:
+          type: boolean
+          example: false
+          description: "Indicates if the contact's email has bounced."
+        spam:
+          type: boolean
+          example: false
+          description: "Indicates if the contact marked the email as spam."
+        created:
+          type: string
+          format: date-time
+          example: "2024-10-08T09:30:00Z"
+          description: "The date and time when the contact was created."
+        updated:
+          type: string
+          format: date-time
+          example: "2024-10-08T12:45:00Z"
+          description: "The date and time when the contact was last updated."
+        blocked:
+          type: boolean
+          example: false
+          description: "Indicates if the contact is blocked from receiving emails."
+        dropped:
+          type: boolean
+          example: false
+          description: "Indicates if emails to this contact were dropped."
+        LTV:
+          type: integer
+          example: 5000
+          description: "Lifetime value (LTV) of the contact in currency units."
+        contactSource:
+          type: integer
+          enum:
+            - 0 
+            - 1 
+            - 2 
+            - 3 
+            - 4 
+            - 5 
+            - 6 
+            - 7 
+            - 8 
+            - 9 
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+            - 19
+          example: 8
+          description: |
+            The source from which the contact was added. Possible values:
+        lastTrackedIp:
+          type: string
+          example: "192.168.0.1"
+          description: "The last known IP address tracked for the contact."
+        lists:
+          type: array
+          description: "A list of `lists` ids the contact is subscribed to."
+          items:
+            type: string
+          example: ["sendx123", "sendx233"]
+        tags:
+          type: array
+          description: "`Tag` ids associated with the contact for segmentation or categorization."
+          items:
+            type: string
+          example: ["223", "3232"]
+    Response:
+      type: object
+      properties:
+        status:
+          type: string
+          description: "The status of the response."
+        message:
+          type: string
+          description: "A message indicating the result of the operation."
+        data:
+          type: string
+          description: "Additional data associated with the response."
+
+    CampaignRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "New Year Promotion"
+          description: "The name of the campaign."
+        htmlCode:
+          type: string
+          example: "<html><body><h1>Happy New Year!</h1></body></html>"
+          description: "The HTML code of the campaign."
+        subject:
+          type: string
+          example: "New Year Offer"
+          description: "The subject of the campaign."
+        sender:
+          type: string
+          example: "sender_123"
+          description: "Sender unique identifier."
+        previewText:
+          type: string
+          example: "Exclusive New Year promotions inside"
+          description: "The preview text shown in email clients."
+        scheduleType:
+          type: integer
+          enum:
+            - 0
+            - 1
+          example: 1
+          description: >
+            The type of scheduling for the campaign
+            <br> 0: Send Now
+            <br> 1: Send Later
+        scheduleCondition:
+          type: string
+          example: "2025-01-21"
+          description: "The condition for scheduling the campaign."
+        timeCondition:
+          type: string
+          example: "10:00 AM"
+          description: "The specific time to send the campaign."
+        timezone:
+          type: string
+          example: "America/New_York"
+          description: "The timezone for the campaign scheduling."
+        preferredTimezone:
+          type: string
+          example: "America/New_York"
+          description: "Preferred timezone for scheduling."
+        preferredTimeCondition:
+          type: string
+          example: "10:00 AM"
+          description: "Specific time preference for sending the campaign (mandatory for sendInContactsTimezone and smartSend)."
+        sendInContactsTimezone:
+          type: boolean
+          example: true
+          description: "Whether to send emails in each contact's timezone."
+        smartSend:
+          type: boolean
+          example: true
+          description: "Whether to enable smart send features (e.g., optimizing send time)."
+        includedSegments:
+          type: array
+          items:
+            type: string
+          example: ["segment_1", "segment_2"]
+          description: "List of segment IDs to include."
+        includedLists:
+          type: array
+          items:
+            type: string
+          example: ["list_1", "list_2"]
+          description: "List of list IDs to include."
+        includedTags:
+          type: array
+          items:
+            type: string
+          example: ["tag_1", "tag_2"]
+          description: "List of tag IDs to include."
+        excludedSegments:
+          type: array
+          items:
+            type: string
+          example: ["segment_3"]
+          description: "List of segment IDs to exclude."
+        excludedLists:
+          type: array
+          items:
+            type: string
+          example: ["list_3"]
+          description: "List of list IDs to exclude."
+        excludedTags:
+          type: array
+          items:
+            type: string
+          example: ["tag_3"]
+          description: "List of tag IDs to exclude."
+      required:
+        - Name
+        - Subject
+        - HtmlCode
+        - Sender
+
+    ListModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Encrypted ID of the list"
+          example: "encrypted_list_id"
+        name:
+          type: string
+          description: "Name of the list"
+          example: "Newsletter Subscribers"
+        type:
+          type: integer
+          description: "Type of the list representing opt-in methods (1: Single Opt-In, 2: Double Opt-In)"
+          enum: [0, 1]  # SingleOptIn = 0, DoubleOptIn = 1
+          example: 0
+        sendThankYouMail:
+          type: boolean
+          description: "Indicates if a thank-you email should be sent"
+          example: true
+        thankYouFromName:
+          type: string
+          description: "Name displayed as the sender in the thank-you email"
+          example: "John Doe"
+        thankYouFromEmail:
+          type: string
+          format: email
+          description: "Email address from which the thank-you email is sent"
+          example: "john.doe@example.com"
+        thankYouMailSubject:
+          type: string
+          description: "Subject line of the thank-you email"
+          example: "Thank You for Subscribing!"
+        thankYouMailMessage:
+          type: string
+          description: "Plain text message body of the thank-you email"
+          example: "We appreciate your subscription!"
+        thankYouSender:
+          type: string
+          description: "Details of the sender of the thank-you email"
+          example: "info@example.com"
+        confirmFromName:
+          type: string
+          description: "Name displayed as the sender in the confirmation email"
+          example: "John Doe"
+        confirmFromEmail:
+          type: string
+          format: email
+          description: "Email address from which the confirmation email is sent"
+          example: "john.doe@example.com"
+        confirmMailSubject:
+          type: string
+          description: "Subject line of the confirmation email"
+          example: "Please Confirm Your Subscription"
+        confirmMailMessage:
+          type: string
+          description: "Plain text message body of the confirmation email"
+          example: "Click the link below to confirm your subscription."
+        confirmSuccessPage:
+          type: string
+          description: "URL of the success page after confirmation"
+          example: "https://example.com/confirmation-success"
+        created:
+          type: string
+          format: date-time
+          description: "Date and time when the list was created"
+          example: "2024-10-01T12:34:56Z"
+        updated:
+          type: string
+          format: date-time
+          description: "Date and time when the list was last updated"
+          example: "2024-10-10T14:30:00Z"
+        confirmSender:
+          type: string
+          nullable: true
+          description: "Details of the sender of the confirmation email"
+    DeleteRequest:
+      type: object
+      properties:
+        deleteContacts:
+          type: boolean
+          example: true
+          description: Indicates whether to delete associated contacts.
+    DeleteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "sendx123"
+        message:
+          type: string
+          example: "Resource (name) has been deleted successfully."
+
+    CreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "sendx123"
+        name:
+          type: string
+          example: "My New Resource"
+        success:
+          type: boolean
+          example: true
+    DashboardStats:
+      type: object
+      properties:
+        lastEmailCampaignStat:
+          $ref: '#/components/schemas/LastSentCampaignStat'
+        newsletterCount:
+          type: integer
+          example: 10
+          description: Number of newsletters sent.
+        automationCount:
+          type: integer
+          example: 5
+          description: Number of automations set up.
+    LastSentCampaignStat:
+      type: object
+      properties:
+        campaign:
+          $ref: '#/components/schemas/CampaignDashboardData'
+        sent:
+          type: integer
+          example: 100
+          description: Number of emails sent.
+        delivered:
+          type: integer
+          example: 90
+          description: Number of emails delivered.
+        subscribed:
+          type: integer
+          example: 10
+          description: Number of new subscriptions.
+        unsubscribed:
+          type: integer
+          example: 5
+          description: Number of unsubscribes.
+        open:
+          type: integer
+          example: 50
+          description: Number of emails opened.
+        linkClicked:
+          type: integer
+          example: 20
+          description: Number of link clicks.
+        replied:
+          type: integer
+          example: 3
+          description: Number of replies received.
+    Tag:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "sendx_123"
+        name:
+          type: string
+          example: "Important Tag"
+        created:
+          type: string
+          format: date-time
+          example: "2024-10-08T12:00:00Z"
+        updated:
+          type: string
+          format: date-time
+          example: "2024-10-08T12:00:00Z"
+    CampaignDashboardData:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: Unique identifier for the campaign.
+        name:
+          type: string
+          example: "Weekly Newsletter"
+          description: Name of the campaign.
+        subject:
+          type: string
+          example: "This Week's Highlights"
+          description: Subject of the campaign.
+        sentTime:
+          type: string
+          format: date-time
+          example: "2024-09-30T14:00:00Z"
+          description: The time the campaign was sent.
+        campaignScreenshotUrl:
+          type: string
+          example: "http://example.com/screenshot.png"
+          description: URL to a screenshot of the campaign.
+    TagRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Marketing Tag"
+    ReportData:
+      type: object
+      description: "Contains the report data for a given campaign"
+      properties:
+        campaignId:
+          type: string
+          description: "The ID of the campaign"
+          example: "sendx123"
+        linkStats:
+          type: object
+          additionalProperties:
+            type: integer
+          description: "Statistics about the links clicked within the campaign"
+          example:
+            "www.example.com": 123
+        clickedContactCount:
+          type: integer
+          description: "The total number of contacts that clicked on any link"
+          example: 230
+        openedContactCount:
+          type: integer
+          description: "The total number of contacts that opened the campaign email"
+          example: 345
+        repliedContactCount:
+          type: integer
+          description: "The total number of contacts that replied to the campaign email"
+          example: 12
+        clickedUniqueContactCount:
+          type: integer
+          description: "The unique number of contacts that clicked on any link"
+          example: 210
+        openedUniqueContactCount:
+          type: integer
+          description: "The unique number of contacts that opened the campaign email"
+          example: 320
+        repliedUniqueContactCount:
+          type: integer
+          description: "The unique number of contacts that replied to the campaign email"
+          example: 11
+        sentContactCount:
+          type: integer
+          description: "The total number of contacts the campaign was sent to"
+          example: 500
+        unsubscribeContactCount:
+          type: integer
+          description: "The total number of contacts that unsubscribed"
+          example: 10
+        bounceContactCount:
+          type: integer
+          description: "The total number of bounced contacts"
+          example: 5
+        spamContactCount:
+          type: integer
+          description: "The total number of contacts that marked the email as spam"
+          example: 2
+        emailRevenue:
+          type: string
+          description: "The total revenue generated from the campaign email"
+          example: "$5000"
+        revenuePerRecipient:
+          type: string
+          description: "The average revenue generated per recipient"
+          example: "$10"
+        currency:
+          type: string
+          description: "The currency in which the revenue is measured"
+          example: "USD"
+    Campaign:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "Encrypted ID of the campaign"
+          example: "campaign123xyz"
+        name:
+          type: string
+          description: "Name of the campaign"
+          example: "New Year Promotion"
+        trackReply:
+          type: boolean
+          description: "Indicates if replies to the campaign should be tracked"
+          example: false
+        subject:
+          type: string
+          description: "Subject of the campaign"  
+          example: "New Year Promotion"
+        status:
+          type: integer
+          enum: [0, 1, 2, 3, 4]
+          example: 1
+          description: "Campaign status: 0 (Draft), 1 (Scheduled), 2 (Sending), 3 (Sent), 4 (Quarantined)"
+        scheduleType:
+          type: integer
+          enum: [0, 1, 2, 3]
+          example: 0
+          description: "Schedule type: 0 (Schedule later), 1 (Send Now), 2 (Trigger via automation), 3 (Recurring)"
+        scheduleCondition:
+          type: string
+          description: "Condition for scheduling the campaign, date at which the campaign should be sent"
+          example: "2024-12-30"
+        timeCondition:
+          type: string
+          description: "Time-related condition for the campaign"
+          example: "9:00 AM"
+        timezone:
+          type: string
+          description: "Timezone for the scheduled send"
+          example: "America/New_York"
+        preferredTimeCondition:
+          type: string
+          description: "Preferred time condition for the campaign"
+          example: "Send during work hours"
+        preferredTimezone:
+          type: string
+          description: "Preferred timezone for sending the campaign"
+          example: "America/Los_Angeles"
+        strategy:
+          type: string
+          description: "Strategy for the campaign"
+          example: "Batch sending"
+        sendInContactsTimezone:
+          type: boolean
+          description: "Indicates if the campaign should be sent in the recipient's timezone"
+          example: true
+        smartSend:
+          type: boolean
+          description: "Indicates if smart sending should be used"
+          example: false
+        isArchived:
+          type: boolean
+          description: "Indicates if the campaign is archived"
+          example: false
+        sender:
+          type: string
+          description: "Information about the sender of the campaign"
+          example: "marketing@company.com"
+        campaignScreenshotUrl:
+          type: string
+          description: "URL of the campaign's screenshot"
+          example: "https://example.com/screenshot.png"
+        includedSegments:
+          type: array
+          items:
+            type: string
+          description: "Segments to be included in the campaign"
+          example: ["VIP Customers", "New Subscribers"]
+        includedLists:
+          type: array
+          items:
+            type: string
+          description: "Lists to be included in the campaign"
+          example: ["List 1", "List 2"]
+        includedTags:
+          type: array
+          items:
+            type: string
+          description: "Tags to be included in the campaign"
+          example: ["Tag 1", "Tag 2"]
+        excludedSegments:
+          type: array
+          items:
+            type: string
+          description: "Segments to be excluded from the campaign"
+          example: ["Unsubscribed Users", "Bounced Emails"]
+        excludedLists:
+          type: array
+          items:
+            type: string
+          description: "Lists to be excluded from the campaign"
+          example: ["List 3", "List 4"]
+        excludedTags:
+          type: array
+          items:
+            type: string
+          description: "Tags to be excluded from the campaign"
+          example: ["Tag 3", "Tag 4"]
+    ListRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Name of the list"
+          example: "Newsletter Subscribers"
+        type:
+          type: integer
+          description: >
+            Type of the list representing opt-in methods
+            <br> 0: Single opt-in list
+            <br> 1: Double opt-in list
+          example: 0
+          enum :
+            - 0
+            - 1
+        sendThankYouMail:
+          type: boolean
+          description: "Indicates if a thank-you email should be sent"
+          example: true
+        thankYouFromName:
+          type: string
+          description: "Name displayed as the sender in the thank-you email"
+          example: "John Doe"
+        thankYouFromEmail:
+          type: string
+          format: email
+          description: "Email address from which the thank-you email is sent"
+          example: "john.doe@example.com"
+        thankYouMailSubject:
+          type: string
+          description: "Subject line of the thank-you email"
+          example: "Thank You for Subscribing!"
+        thankYouMailMessage:
+          type: string
+          description: "Plain text message body of the thank-you email"
+          example: "We appreciate your subscription!"
+        thankYouSender:
+          type: string
+          description: "Sender ID for the thank-you email"
+          example: "sender_101"
+        confirmFromName:
+          type: string
+          description: "Name displayed as the sender in the confirmation email"
+          example: "John Doe"
+        confirmFromEmail:
+          type: string
+          format: email
+          description: "Email address from which the confirmation email is sent"
+          example: "john.doe@example.com"
+        confirmMailSubject:
+          type: string
+          description: "Subject line of the confirmation email"
+          example: "Please Confirm Your Subscription"
+        confirmMailMessage:
+          type: string
+          description: "Plain text message body of the confirmation email"
+          example: "Click the link below to confirm your subscription."
+        confirmSuccessPage:
+          type: string
+          description: "URL of the success page after confirmation"
+          example: "https://example.com/confirmation-success"
+        confirmSender:
+          type: string
+          description: "Sender ID for the confirmation email"
+          example: "sender_102"
+    SenderRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the sender
+          example: "Linus"
+        email:
+          type: string
+          format: email
+          description: Email address of the sender
+          example: "linus@linux.org"
+      required:
+        - name
+        - email
+
+    Sender:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the sender
+          example: "sender_123"
+        name:
+          type: string
+          description: Name of the sender
+          example: "Linus"
+        email:
+          type: string
+          format: email
+          description: Email address of the sender
+          example: "linus@linux.org"
+      required:
+        - id
+        - name
+        - email
+    SenderResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Encrypted ID of the sender
+        name:
+          type: string
+          description: Name of the sender
+        email:
+          type: string
+          format: email
+          description: Email address of the sender
+        isWhitelisted:
+          type: boolean
+          description: Indicates if the sender is whitelisted
+      required:
+        - id
+        - name
+        - email
+        - isWhitelisted
+    CustomEventRequest:
+      type: object
+      required:
+        - name
+        - identifier
+        - data
+      properties:
+        name:
+          type: string
+          description: "Name of the custom event (e.g., 'abandoned_cart')."
+          example: "abandoned_cart"
+        identifier:
+          type: string
+          description: "Unique identifier for the contact (e.g., contact's email)."
+          example: "john.doe@example.com"
+        data:
+          type: object
+          additionalProperties:
+            type: string
+          description: "Map of property-value pairs associated with the event, where both key and value are strings."
+          example:
+            price: "29.99"
+            currency: "USD"
+            item_count: "3"
+        time:
+          type: integer
+          description: "Unix timestamp of when the event occurred. In Unix time format."
+          example: 1669990400
+    EventResponse:
+      type: object
+      properties:
+        event_id:
+          type: string
+          description: "Unique identifier for the created event."
+          example: "m3m2k3mnkjn23nkj3"
+        status:
+          type: string
+          description: "Status of the event creation (e.g., 'success')."
+          example: "success"
+        message:
+          type: string
+          description: "Additional message about the event creation."
+          example: "Event created successfully."
+    RevenueEventRequest:
+      type: object
+      required:
+        - identifier
+        - amount
+        - source
+        - time
+      properties:
+        identifier:
+          type: string
+          description: "Unique email identifier for the contact."
+          example: "john.doe@example.com"
+        amount:
+          type: number
+          format: float
+          description: "Recognized revenue amount associated with the event."
+          example: 123.23
+        source:
+          type: string
+          description: "Source of the revenue (e.g., 'website', 'mobile app', 'partner referral')."
+          example: "app"
+        time:
+          type: integer
+          description: "Unix timestamp indicating when the revenue event occurred."
+          example: 1669990400
+    IdentifyRequest:
+      type: object
+      required:
+        - email
+      properties:
+        firstName:
+          type: string
+          description: First name of the contact.
+          example: John
+        lastName:
+          type: string
+          description: Last name of the contact.
+          example: Doe
+        email:
+          type: string
+          description: Email address of the contact.
+          example: user@example.com
+        newEmail:
+          type: string
+          description: New email address of the contact.
+          example: user@example.com
+        company:
+          type: string
+          description: Company of the contact.
+          example: Acme Inc.
+        tags:
+          type: array
+          items:
+            type: string
+            description: Tags of the contact.
+          example: ["new", "cool"]
+        customFields:
+          type: object
+          additionalProperties:
+            type: string
+            description: Custom fields of the contact.
+          example: {"favorite_color": "blue", "favorite_food": "pizza"}
+    IdentifyResponse:
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/Contact'
+    TrackRequest:
+      type: object
+      properties:
+        email:
+          type: email
+          description: Email address of the contact to track.
+          example: user@example.com
+        addTags:
+          type: array
+          items:
+            type: string
+            description: Tags to add to the contact.
+          example: ["new", "cool"]
+        removeTags:
+          type: array
+          items:
+            type: string
+            description: Tags to remove from the contact.
+          example: ["old", "bad"]
+
+    TrackResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Webhook ID
+          example: "webhook_123"
+        enabled:
+          type: boolean
+          description: Indicates whether the webhook is enabled.
+          example: true
+        url:
+          type: string
+          description: The URL where webhook events will be sent.
+          example: "https://example.com/webhook"
+        unsubscribed:
+          type: boolean
+          description: Indicates if the webhook unsubscribes users.
+          example: true
+        dropped:
+          type: boolean
+          description: Indicates if the webhook processes dropped events.
+          example: true
+        bounced:
+          type: boolean
+          description: Indicates if the webhook processes bounced events.
+          example: true
+        markedSpam:
+          type: boolean
+          description: Indicates if the webhook processes marked-as-spam events.
+          example: true
+        clicked:
+          type: boolean
+          description: Indicates if the webhook processes click events.
+          example: true
+        opened:
+          type: boolean
+          description: Indicates if the webhook processes open events.
+          example: true
+        created:
+          type: integer
+          format: int64
+          description: Timestamp of when the webhook was created. In Unix time format.
+          example: 1669990400
+    WebhookRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Indicates whether the webhook is enabled.
+          example: true
+        url:
+          type: string
+          description: The URL where webhook events will be sent.
+          example: "https://example.com/webhook"
+        unsubscribed:
+          type: boolean
+          description: Indicates if the webhook unsubscribes users.
+          example: false
+        dropped:
+          type: boolean
+          description: Indicates if the webhook processes dropped events.
+          example: false
+        bounced:
+          type: boolean
+          description: Indicates if the webhook processes bounced events.
+          example: false
+        markedSpam:
+          type: boolean
+          description: Indicates if the webhook processes marked-as-spam events.
+          example: false
+        clicked:
+          type: boolean
+          description: Indicates if the webhook processes click events.
+          example: false
+        opened:
+          type: boolean
+          description: Indicates if the webhook processes open events.
+          example: false
+    ECustomField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the custom field.
+          example: "Custom Field Example"
+        type:
+          type: integer
+          description: Type of the custom field.
+          enum:
+            - 0: string
+            - 1: number
+            - 2: date
+            - 3: boolean
+          example: 0
+        shown:
+          type: boolean
+          description: Whether the custom field is shown.
+          example: true
+        isShareable:
+          type: boolean
+          description: Whether the custom field is shareable.
+          example: false
+        description:
+          type: string
+          description: Description of the custom field.
+          example: "An example custom field"
+    CustomField:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Encrypted ID of the custom field.
+          example: "encrypted-id-123"
+        name:
+          type: string
+          description: Name of the custom field.
+          example: "Custom Field Example"
+        type:
+          type: integer
+          description: Type of the custom field.
+          enum:
+            - 0: string
+            - 1: number
+            - 2: date
+            - 3: boolean
+          example: 0
+        description:
+          type: string
+          description: Description of the custom field.
+          example: "An example custom field"
+    WebhookObject:
+          type: object
+          properties:
+                type:
+                      type: integer
+                      format: int64
+                      description: The type of the event.
+                      example: 7
+                time:
+                      type: integer
+                      format: int64
+                      description: The timestamp of the event in milliseconds since the epoch.
+                      example: 1686304219037565000
+                data:
+                      type: string
+                      description: Arbitrary data associated with the event.
+                      example: "{\"key\": \"value\"}"
+                provider_message_id:
+                      type: string
+                      nullable: true
+                      description: Optional provider message ID.
+                      example: "provider_message_id_123"
+                campaign_id:
+                      type: string
+                      nullable: true
+                      description: Optional campaign ID.
+                      example: "campaign_id_123"
+                drip_step_id:
+                      type: string
+                      nullable: true
+                      description: Optional drip step ID.
+                      example: "drip_step_id_123"
+                rss_exec_id:
+                      type: string
+                      nullable: true
+                      description: Optional RSS execution ID.
+                      example: "rss_exec_id_123"
+                tag_id:
+                      type: string
+                      nullable: true
+                      description: Optional tag ID.
+                      example: "tag_id_123"
+                link:
+                      type: string
+                      nullable: true
+                      description: Optional link associated with the event.
+                      example: "https://example.com"
+                list_id:
+                      type: string
+                      nullable: true
+                      description: Optional list ID.
+                      example: "list_id_123"
+                contact_id:
+                      type: string
+                      nullable: true
+                      description: Optional contact ID.
+                      example: "contact_id_123"
+                custom_field_id:
+                      type: string
+                      nullable: true
+                      description: Optional custom field ID.
+                      example: "custom_field_id_123"
+                template_id:
+                      type: string
+                      nullable: true
+                      description: Optional template ID.
+                      example: "template_id_123"
+                popup_id:
+                      type: string
+                      nullable: true
+                      description: Optional popup ID.
+                      example: "popup_id_123"
+                landing_page_id:
+                      type: string
+                      nullable: true
+                      description: Optional landing page ID.
+                      example: "landing_page_id_123"
+                form_id:
+                      type: string
+                      nullable: true
+                      description: Optional form ID.
+                      example: "form_id_123"
+                segment_id:
+                      type: string
+                      nullable: true
+                      description: Optional segment ID.
+                      example: "segment_id_123"
+                automation_id:
+                      type: string
+                      nullable: true
+                      description: Optional automation ID.
+                      example: "automation_id_123"
+                drip_id:
+                      type: string
+                      nullable: true
+                      description: Optional drip ID.
+                      example: "drip_id_123"
+                rss_id:
+                      type: string
+                      nullable: true
+                      description: Optional RSS ID.
+                      example: "rss_id_123"
+                ab_test_id:
+                      type: string
+                      nullable: true
+                      description: Optional A/B test ID.
+                      example: "ab_test_id_123"
+                workflow_id:
+                      type: string
+                      nullable: true
+                      description: Optional workflow ID.
+                      example: "workflow_id_123"
+                workflow_node_id:
+                      type: string
+                      nullable: true
+                      description: Optional workflow node ID.
+                      example: "workflow_node_id_123"
+                workflow_email_id:
+                      type: string
+                      nullable: true
+                      description: Optional workflow email ID.
+                      example: "workflow_email_id_123"

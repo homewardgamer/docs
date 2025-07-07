@@ -39,9 +39,7 @@
         "groups": [
           {
             "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "openapi": "swagger.yaml"
           },
           {
             "group": "Endpoint Examples",
